@@ -1,0 +1,510 @@
+{
+  "type": "post_call_transcription",
+  "event_timestamp": 1753714849,
+  "data": {
+    "agent_id": "agent_01jzg2ck1gfhcskcqxnnr0bzde",
+    "conversation_id": "conv_8801k18rr7qqevt9dhn06798pn5h",
+    "status": "done",
+    "user_id": "uNRblYzDO7X4ghBq0MU4sc6Ucby2",
+    "transcript": [
+      {
+        "role": "agent",
+        "message": "Hola, soy CATA, tu asesora especializada en tratamientos Dermaccina...",
+        "tool_calls": [],
+        "tool_results": [],
+        "feedback": null,
+        "llm_override": null,
+        "time_in_call_secs": 0,
+        "conversation_turn_metrics": null,
+        "rag_retrieval_info": null,
+        "llm_usage": null,
+        "interrupted": true,
+        "original_message": "Hola, soy CATA, tu asesora especializada en tratamientos Dermaccina. ¿Puedes decirme cuál es tu nombre?",
+        "source_medium": null
+      },
+      {
+        "role": "user",
+        "message": "Hola, ¿cómo estás? Mucho gusto, mi nombre es Catalina Forero, tengo 18 años, tengo... Mi dirección es... No, vivo en Miami, Florida. Mi correo electrónico es catalinaforerosuares.gmail.com Mi teléfono es 8765-2345-61. Tengo manchas, son de color morado y son pequeñas.",
+        "tool_calls": [],
+        "tool_results": [],
+        "feedback": null,
+        "llm_override": null,
+        "time_in_call_secs": 4,
+        "conversation_turn_metrics": null,
+        "rag_retrieval_info": null,
+        "llm_usage": null,
+        "interrupted": false,
+        "original_message": null,
+        "source_medium": "audio"
+      },
+      {
+        "role": "agent",
+        "message": "¡Hola Catalina! Mucho gusto, Catalina Forero. Es un placer conocerte. Entiendo que tienes manchas pequeñas de color morado. Para...",
+        "tool_calls": [],
+        "tool_results": [],
+        "feedback": null,
+        "llm_override": null,
+        "time_in_call_secs": 42,
+        "conversation_turn_metrics": {
+          "metrics": {
+            "convai_llm_service_ttf_sentence": {
+              "elapsed_time": 0.712377883028239
+            },
+            "convai_llm_service_ttfb": {
+              "elapsed_time": 0.711557827075012
+            }
+          }
+        },
+        "rag_retrieval_info": {
+          "chunks": [
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "y0TVBVCnsuwiA5qSY6o9",
+              "vector_distance": 0.08581209182739258
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "JTYdscJFnm62tH9bk7uE",
+              "vector_distance": 0.09107935428619385
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "584MiiFe7mZTifYDkcJ0",
+              "vector_distance": 0.093045175075531
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "ivFFYcTATEU1RWb4muur",
+              "vector_distance": 0.09466582536697388
+            },
+            {
+              "document_id": "ULuf3OiLFTOS4uFncIss",
+              "chunk_id": "CFmGLgiHKjo7Zh9bhaVs",
+              "vector_distance": 0.09635007381439209
+            },
+            {
+              "document_id": "ARKnpfKlvpI7RmM3eG5Z",
+              "chunk_id": "p4gsquriRFje15DmGMpt",
+              "vector_distance": 0.09792935848236084
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "tC5Sq2EEWxwYMdRgO8oi",
+              "vector_distance": 0.09802603721618652
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "nCXp9cFTnSMYiZxvcooW",
+              "vector_distance": 0.0980292558670044
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "WfPrxBmgBFNoQhw6LcT2",
+              "vector_distance": 0.09804397821426392
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "E88aTp4rcpSsYXuB7Tez",
+              "vector_distance": 0.09813046455383301
+            },
+            {
+              "document_id": "R6pIdlOHCGz4RN93tKfT",
+              "chunk_id": "ZEYAMOdlly1Zkje3v7dV",
+              "vector_distance": 0.09822124242782593
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "WlguaRnmjGZJIPvCoY4k",
+              "vector_distance": 0.09837996959686279
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "SHBMzrPbJgLYIXtHyAQi",
+              "vector_distance": 0.09899413585662842
+            },
+            {
+              "document_id": "Jbq90Px7ll7LSe30dKix",
+              "chunk_id": "qeEABMukGc4VxNkIqJDK",
+              "vector_distance": 0.09914469718933105
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "637O0FIWXBucpZB4pGn5",
+              "vector_distance": 0.09942638874053955
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "lVsTWvmY4VjN0WRbUhQA",
+              "vector_distance": 0.09945636987686157
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "GF3IMesq1FAnpBL2nHCd",
+              "vector_distance": 0.09945982694625854
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "3FHJ5EoYXV66InP50Crf",
+              "vector_distance": 0.09970724582672119
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "gKxyMBfWe2UVImQ9gg67",
+              "vector_distance": 0.09971988201141357
+            },
+            {
+              "document_id": "M93DCLKLMnBtzMQDtDSi",
+              "chunk_id": "o3dLBZ67QFftjkJW6a6e",
+              "vector_distance": 0.09998667240142822
+            }
+          ],
+          "embedding_model": "multilingual_e5_large_instruct",
+          "retrieval_query": "¿Qué tratamiento me recomiendas para las manchas moradas pequeñas?\n",
+          "rag_latency_secs": 1.5847414039308205
+        },
+        "llm_usage": {
+          "model_usage": {
+            "gemini-2.0-flash-lite-001": {
+              "input": {
+                "tokens": 8051,
+                "price": 0.0006038249999999999
+              },
+              "input_cache_read": {
+                "tokens": 0,
+                "price": 0
+              },
+              "input_cache_write": {
+                "tokens": 0,
+                "price": 0
+              },
+              "output_total": {
+                "tokens": 66,
+                "price": 0.0000198
+              }
+            }
+          }
+        },
+        "interrupted": true,
+        "original_message": "¡Hola Catalina! Mucho gusto, Catalina Forero. Es un placer conocerte. Entiendo que tienes manchas pequeñas de color morado. Para poder ayudarte mejor, y recomendarte el producto Dermaccina adecuado, necesito saber: ¿Desde hace cuánto tiempo tienes estas manchas? ¿Has probado algún tratamiento antes para estas manchas?",
+        "source_medium": null
+      }
+    ],
+    "metadata": {
+      "start_time_unix_secs": 1753714794,
+      "accepted_time_unix_secs": 1753714794,
+      "call_duration_secs": 49,
+      "cost": 190,
+      "deletion_settings": {
+        "deletion_time_unix_secs": null,
+        "deleted_logs_at_time_unix_secs": null,
+        "deleted_audio_at_time_unix_secs": null,
+        "deleted_transcript_at_time_unix_secs": null,
+        "delete_transcript_and_pii": false,
+        "delete_audio": false
+      },
+      "feedback": {
+        "overall_score": null,
+        "likes": 0,
+        "dislikes": 0
+      },
+      "authorization_method": "authorization_header",
+      "charging": {
+        "dev_discount": true,
+        "is_burst": false,
+        "tier": "pro",
+        "llm_usage": {
+          "irreversible_generation": {
+            "model_usage": {
+              "gemini-2.0-flash-lite-001": {
+                "input": {
+                  "tokens": 8051,
+                  "price": 0.0006038249999999999
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0
+                },
+                "output_total": {
+                  "tokens": 66,
+                  "price": 0.0000198
+                }
+              }
+            }
+          },
+          "initiated_generation": {
+            "model_usage": {
+              "gemini-2.0-flash-lite-001": {
+                "input": {
+                  "tokens": 8051,
+                  "price": 0.0006038249999999999
+                },
+                "input_cache_read": {
+                  "tokens": 0,
+                  "price": 0
+                },
+                "input_cache_write": {
+                  "tokens": 0,
+                  "price": 0
+                },
+                "output_total": {
+                  "tokens": 66,
+                  "price": 0.0000198
+                }
+              }
+            }
+          }
+        },
+        "llm_price": 0.0006236249999999999,
+        "llm_charge": 5,
+        "call_charge": 185
+      },
+      "phone_call": null,
+      "batch_call": null,
+      "termination_reason": "Client disconnected: 1005",
+      "error": null,
+      "main_language": "es",
+      "rag_usage": {
+        "usage_count": 1,
+        "embedding_model": "multilingual_e5_large_instruct"
+      },
+      "text_only": false,
+      "features_usage": {
+        "language_detection": {
+          "enabled": true,
+          "used": false
+        },
+        "transfer_to_agent": {
+          "enabled": false,
+          "used": false
+        },
+        "transfer_to_number": {
+          "enabled": false,
+          "used": false
+        },
+        "multivoice": {
+          "enabled": false,
+          "used": false
+        },
+        "pii_zrm_workspace": false,
+        "pii_zrm_agent": false
+      },
+      "eleven_assistant": {
+        "is_eleven_assistant": false
+      },
+      "initiator_id": "uNRblYzDO7X4ghBq0MU4sc6Ucby2",
+      "conversation_initiation_source": "unknown",
+      "conversation_initiation_source_version": null,
+      "timezone": "America/New_York"
+    },
+    "analysis": {
+      "evaluation_criteria_results": {},
+      "data_collection_results": {
+        "has_manchas": {
+          "data_collection_id": "has_manchas",
+          "value": "Si",
+          "json_schema": {
+            "type": "integer",
+            "description": "Identifica si el cliente menciona tener manchas en la piel. Busca referencias como \"tengo manchas\", \"me salieron manchas\", \"tengo unas marcas\" o descripciones de alteraciones en la pigmentación. Si confirma tener manchas, retorna \"Si\". Si dice no tener manchas o no se menciona, retorna \"No\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona explícitamente que tiene manchas en la piel, describiéndolas como pequeñas y de color morado. Por lo tanto, la respuesta es \"Si\"."
+        },
+        "color_manchas": {
+          "data_collection_id": "color_manchas",
+          "value": "morado",
+          "json_schema": {
+            "type": "integer",
+            "description": "Extrae el color específico de las manchas mencionado por el cliente. Busca descripciones como \"manchas marrones\", \"negras\", \"rojas\", \"claras\", \"oscuras\" o cualquier referencia cromática. Retorna el color exacto mencionado. Si no se especifica color o no hay manchas, retorna string vacía \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona que tiene manchas de color morado. Por lo tanto, el color de las manchas es \"morado\"."
+        },
+        "customer_zip4": {
+          "data_collection_id": "customer_zip4",
+          "value": "",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae la extensión de 4 dígitos del código postal si se menciona (formato ZIP+4). Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "No se proporciona información sobre un código postal o su extensión de 4 dígitos en el texto proporcionado. Por lo tanto, el valor extraído es \"\"."
+        },
+        "customer_state": {
+          "data_collection_id": "customer_state",
+          "value": "Florida",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el departamento/estado mencionado por el cliente. Busca referencias territoriales como \"en el departamento de...\", \"estado de...\" o divisiones administrativas. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona que vive en Miami, Florida. Por lo tanto, se extrae 'Florida' como el estado mencionado."
+        },
+        "customer_city": {
+          "data_collection_id": "customer_city",
+          "value": "Miami",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae la ciudad mencionada en el contexto de residencia del cliente. Busca referencias como \"en la ciudad de...\", \"vivo en [ciudad]\" o cuando se especifica la ubicación urbana. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario indica que vive en Miami, Florida. Por lo tanto, la ciudad de residencia es Miami."
+        },
+        "customer_zip": {
+          "data_collection_id": "customer_zip",
+          "value": "",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el código postal principal cuando el cliente lo menciona. Busca números de 5 dígitos en contexto de dirección postal. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona que vive en Miami, Florida, pero no proporciona un código postal específico de 5 dígitos. Por lo tanto, no se puede extraer el código postal principal."
+        },
+        "tamaño_manchas": {
+          "data_collection_id": "tamaño_manchas",
+          "value": "Pequeñas",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el tamaño de las manchas cuando el cliente las describe. Busca referencias como \"manchas grandes\", \"pequeñas\", \"medianas\", \"del tamaño de...\" o comparaciones de dimensiones. Clasifica como \"Grandes\", \"Pequeñas\" o \"Medianas\". Si no se especifica tamaño o no hay manchas, retorna string vacía \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario describe las manchas como \"pequeñas\". Por lo tanto, la extracción es \"Pequeñas\"."
+        },
+        "skin_condition": {
+          "data_collection_id": "skin_condition",
+          "value": "manchas",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae la condición dermatológica específica que menciona el cliente. Busca términos como \"vitiligo\", \"psoriasis\", \"acné\", \"hongos\", \"dermatitis\", \"eczema\", \"manchas\", \"cicatrices\". Si el cliente describe síntomas sin nombrar la condición, extrae la descripción exacta. Si no se especifica, retorna \"Problema de piel no especificado\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El cliente menciona que tiene \"manchas, son de color morado y son pequeñas\". Por lo tanto, la condición dermatológica específica es \"manchas\"."
+        },
+        "customer_last_name": {
+          "data_collection_id": "customer_last_name",
+          "value": "Forero",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el apellido del cliente de la transcripción. Busca cuando CATA pregunta \"¿Cuál es su nombre completo?\" o cuando el cliente se presenta diciendo \"Mi nombre es...\", \"Soy...\", \"Me llamo...\". Si solo se menciona el apellido, extrae únicamente eso. Si no se proporciona apellido, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El cliente se presenta diciendo \"mi nombre es Catalina Forero\". Por lo tanto, el apellido del cliente es Forero."
+        },
+        "customer_country": {
+          "data_collection_id": "customer_country",
+          "value": "Estados Unidos",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el país mencionado por el cliente en contexto de residencia. Busca referencias como \"en Colombia\", \"desde [país]\" o menciones de nacionalidad residencial. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona que vive en Miami, Florida, lo cual implica que reside en Estados Unidos."
+        },
+        "customer_address": {
+          "data_collection_id": "customer_address",
+          "value": "",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae la dirección específica (calle, número, apartamento) cuando el cliente menciona \"vivo en...\", \"mi dirección es...\", \"resido en...\". Incluye nombre de calle, número y detalles como apartamento o casa. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario menciona \"vivo en Miami, Florida\", pero no proporciona la dirección específica (calle, número, apartamento). Por lo tanto, el valor extraído es \"\"."
+        },
+        "customer_phone": {
+          "data_collection_id": "customer_phone",
+          "value": "8765-2345-61",
+          "json_schema": {
+            "type": "string",
+            "description": "Identifica el número de teléfono del cliente mencionado en la conversación. Busca patrones como números de 10 dígitos, códigos de área, o cuando CATA pregunta \"¿Cuál es su número de teléfono?\". Formato esperado: +1-XXX-XXX-XXXX o similar. Si no se proporciona, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario proporciona su número de teléfono como 8765-2345-61 durante la conversación."
+        },
+        "customer_name": {
+          "data_collection_id": "customer_name",
+          "value": "Catalina Forero",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el nombre del cliente de la transcripción. Busca cuando CATA pregunta \"¿Cuál es su nombre completo?\" o cuando el cliente se presenta diciendo \"Mi nombre es...\", \"Soy...\", \"Me llamo...\". Si solo se menciona el primer nombre, extrae únicamente eso. Si no se proporciona nombre, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El cliente se presenta diciendo \"Mi nombre es Catalina Forero\". Por lo tanto, extraigo \"Catalina Forero\" como el nombre del cliente."
+        },
+        "has_tried_treatments": {
+          "data_collection_id": "has_tried_treatments",
+          "value": false,
+          "json_schema": {
+            "type": "boolean",
+            "description": "Determina si el cliente ha probado tratamientos anteriores. Retorna true si menciona cualquier medicamento, crema, tratamiento médico, remedios caseros, o visitas a dermatólogos. Retorna false si dice \"nunca he probado nada\" o \"es la primera vez que busco tratamiento\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El usuario no menciona haber probado tratamientos anteriores, ni medicamentos, cremas, tratamientos médicos, remedios caseros, o visitas a dermatólogos. Por lo tanto, se asume que no ha probado tratamientos anteriores."
+        },
+        "customer_email": {
+          "data_collection_id": "customer_email",
+          "value": "catalinaforerosuares.gmail.com",
+          "json_schema": {
+            "type": "string",
+            "description": "Extrae el email del cliente de la transcripción. Busca cuando CATA pregunta por el correo electrónico o cuando el cliente menciona \"mi email es...\", \"mi correo es...\", \"pueden escribirme a...\". Identifica patrones con formato típico de email (usuario@dominio.com). Si el cliente deletrea el email, reconstruye la dirección completa. Si no se proporciona email, retorna \"\".",
+            "dynamic_variable": "",
+            "constant_value": ""
+          },
+          "rationale": "El cliente menciona explícitamente su correo electrónico como \"catalinaforerosuares.gmail.com\"."
+        }
+      },
+      "call_successful": "success",
+      "transcript_summary": "CATA, an AI assistant specializing in Dermaccina treatments, greets Catalina Forero. Catalina introduces herself, provides her contact information, and describes having small, purple spots. CATA acknowledges the information and expresses pleasure in assisting her.\n",
+      "call_summary_title": "Dermaccina treatment consultation"
+    },
+    "conversation_initiation_client_data": {
+      "conversation_config_override": {
+        "tts": {
+          "voice_id": null
+        },
+        "conversation": {
+          "text_only": null
+        },
+        "agent": {
+          "first_message": null,
+          "language": "es",
+          "prompt": null
+        }
+      },
+      "custom_llm_extra_body": {},
+      "user_id": "uNRblYzDO7X4ghBq0MU4sc6Ucby2",
+      "source_info": {
+        "source": null,
+        "version": null
+      },
+      "dynamic_variables": {
+        "system__agent_id": "agent_01jzg2ck1gfhcskcqxnnr0bzde",
+        "system__current_agent_id": "agent_01jzg2ck1gfhcskcqxnnr0bzde",
+        "system__conversation_id": "conv_8801k18rr7qqevt9dhn06798pn5h",
+        "system__caller_id": null,
+        "system__called_number": null,
+        "system__call_duration_secs": 48,
+        "system__time_utc": "2025-07-28T15:00:43.163012+00:00",
+        "system__time": "Monday, 11:00 28 July 2025",
+        "system__timezone": "America/New_York",
+        "system__call_sid": null
+      }
+    }
+  }
+}

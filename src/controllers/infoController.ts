@@ -55,17 +55,54 @@ export class InfoController {
         zip: customerZip,
         zip4: customerZip4,
         country: convertToTwoCharCode(customerCountry),
-        comment: dataCollection.skin_condition?.value,
+        comment: "",
+        addInfo: {
+          tscReference: "DEFAULT",
+          data: [
+            {
+              tscReferenceCode: "TSC_manchas",
+              tscReferenceValue: dataCollection?.has_manchas?.value
+            },
+            {
+              tscReferenceCode: "TSC_tamaño_manchas",
+              tscReferenceValue: dataCollection?.tamaño_manchas?.value
+            },
+            {
+              tscReferenceCode: "TSC_skin_condition",
+              tscReferenceValue: dataCollection?.skin_condition?.value
+            },
+            {
+              tscReferenceCode: "TSC_has_tried_treatments",
+              tscReferenceValue: dataCollection?.has_tried_treatments?.value
+            },
+            {
+              tscReferenceCode: "TSC_color_manchas",
+              tscReferenceValue: dataCollection?.color_manchas?.value
+            },
+          ]
+        }
+      };
+
+      const infoLeadDB = {
+        ...leadData,
+        status: dataCollection.call_successful
       };
 
       // Guardar en MongoDB antes de enviar a la API externa
       try {
         const db = await connectMongo();
-        await db.collection('leads').insertOne(leadData);
+        await db.collection('leads').insertOne(infoLeadDB);
         console.log('Lead saved to MongoDB');
       } catch (mongoErr) {
         console.error('Error saving lead to MongoDB:', mongoErr);
         // Puedes decidir si continuar o retornar error aquí
+      }
+
+      // Validar el estado de la llamada antes de enviar a la API externa
+      const callStatus = dataCollection.call_successful?.toLowerCase();
+      if (callStatus === 'error' || callStatus === 'failed') {
+        console.log('Call status is error or failed, not sending to external API');
+        return res.status(200).json({ message: 'Lead saved to database only due to call status', status: callStatus });
       }
 
       console.log('Sending lead data:', JSON.stringify(leadData, null, 2));
@@ -147,6 +184,18 @@ export class InfoController {
 
   static async getLeads(req: Request, res: Response, next: NextFunction) {
     try {
+      // Verificar si se proporcionó la contraseña
+      const { pass } = req.query;
+
+      if (!pass) {
+        return ResponseHelper.error(res, 'No se proporcionó la contraseña', 401);
+      }
+
+      // Verificar si la contraseña es correcta
+      if (pass !== config.passGet) {
+        return ResponseHelper.error(res, 'No se proporcionó la contraseña', 401);
+      }
+
       const db = await connectMongo();
       const leads = await db.collection('leads').find({}).toArray();
       return res.status(200).json(leads);
