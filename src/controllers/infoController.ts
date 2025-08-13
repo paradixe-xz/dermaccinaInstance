@@ -32,6 +32,7 @@ export class InfoController {
 
       // Extraer nombre y teléfono
       const customerPhone = dataCollection.customer_phone?.value || "";
+      // const customerPhone = info.data.metadata?.phone_call?.external_number || "";
       const customerEmail = dataCollection.customer_email?.value || "";
       const customerCountry = dataCollection.customer_country?.value || "";
       const customerAddress = dataCollection.customer_address?.value || "";
@@ -99,8 +100,9 @@ export class InfoController {
       }
 
       // Validar el estado de la llamada antes de enviar a la API externa
-      const callStatus = dataCollection.call_successful?.toLowerCase();
-      if (callStatus === 'error' || callStatus === 'failed') {
+      const callStatus = info.data.analysis?.call_successful?.toLowerCase();
+      console.log("Call status: ", callStatus);
+      if (callStatus != "success") {
         console.log('Call status is error or failed, not sending to external API');
         return res.status(200).json({ message: 'Lead saved to database only due to call status', status: callStatus });
       }
