@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { config } from './config';
+import config from './config';
 import routes from './router';
 import { logger } from './middlewares/logger';
 import { errorHandler } from './middlewares/errorHandler';
@@ -22,7 +22,7 @@ app.use('/api', routes);
 app.use(errorHandler);
 
 // Start server
-config.connectMongo()
+config.connectDB()
   .then(() => {
     console.log('✅ Connected to MongoDB');
     app.listen(config.port, () => {
