@@ -4,17 +4,178 @@ import { Request, Response, NextFunction } from 'express';
 // Helpers
 import { ResponseHelper } from '../helpers/responseHelper';
 import { convertToTwoCharCode, removeSymbolRegex } from '../helpers/dataDebugging';
-import { connectMongo } from '../config/database';
+import { sequelize } from '../config/database';
 import { config } from '../config';
+import { Lead } from '../models/lead.model';
+
+// Interfaces
+interface TscResponse {
+  rescode: string;
+  resmsg: string;
+  leadnum?: string;
+  ordernum?: string;
+  [key: string]: any;
+}
+
+interface LeadData {
+  name: string;
+  last_name: string;
+  media: string;
+  phone_number: string;
+  entervia: string;
+  email: string;
+  city: string;
+  address: string;
+  state: string;
+  zip: string;
+  zip4: string;
+  country: string;
+  comment: string;
+  addInfo: {
+    tscReference: string;
+    data: Array<{
+      tscReferenceCode: string;
+      tscReferenceValue: any;
+    }>;
+  };
+  [key: string]: any;
+}
+
+interface OrderData {
+  createBy: string;
+  seller: string;
+  sellerName: string;
+  company: string;
+  department: string;
+  ordenDate: string;
+  leadnum: string;
+  customerName: string;
+  customerLastname: string;
+  direction: {
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    zip4: string;
+    country: string;
+    urbanization: string;
+  };
+  phone1: string;
+  phone2: string;
+  comment: string;
+  payterm: string;
+  deliveryDate: string;
+  shipvia: string;
+  subTotal: number;
+  total: number;
+  saleTax: number;
+  taxes: number;
+  paid: number;
+  discount: number;
+  discountAmount: number;
+  detail: Array<{
+    productCode: string;
+    packageCode: string;
+    qty: number;
+    total: number;
+    pricePerUnit: number;
+  }>;
+  [key: string]: any;
+}
+
+interface PaymentData {
+  ordernum: string;
+  leadnum: string;
+  amount: number;
+  paymentMethod: string;
+  [key: string]: any;
+}
 
 export class InfoController {
-  static cleanLeadDataByResmsg(leadData: any, resmsg: string) {
-    const fields = ['country', 'email', 'phone_number', 'city', 'address', 'state', 'zip', 'zip4', 'comment'];
-    for (const field of fields) {
-      if (resmsg.toLowerCase().includes(field)) {
-        leadData[field] = '';
+  private static async callTscApi(endpoint: string, data: any): Promise<TscResponse | null> {
+    try {
+      const response = await fetch(`${config.tscApi.url}/${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${config.tscApi.token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        console.error('TSC API Error:', response.status, error);
+        return null;
       }
+
+      return await response.json() as TscResponse;
+    } catch (error) {
+      console.error('Error calling TSC API:', error);
+      return null;
     }
+  }
+
+  private static async createOrder(leadData: any, leadNum: string): Promise<TscResponse | null> {
+    if (!leadData || !leadNum) return null;
+
+    const orderData: OrderData = {
+      createBy: "API",
+      seller: "API",
+      sellerName: "API User",
+      company: "90001",
+      department: "90001",
+      ordenDate: new Date().toISOString().split('T')[0],
+      leadnum: leadNum,
+      customerName: leadData.name,
+      customerLastname: leadData.last_name,
+      direction: {
+        address: leadData.address || "",
+        city: leadData.city || "",
+        state: leadData.state || "",
+        zip: leadData.zip || "",
+        zip4: leadData.zip4 || "",
+        country: leadData.country || "",
+        urbanization: ""
+      },
+      phone1: leadData.phone_number,
+      phone2: "",
+      comment: leadData.comment || "Order created from lead",
+      payterm: "PREPAID",
+      deliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days from now
+      shipvia: "USPS",
+      subTotal: 0,
+      total: 0,
+      saleTax: 0,
+      taxes: 0,
+      paid: 0,
+      discount: 0,
+      discountAmount: 0,
+      detail: []
+    };
+
+    return this.callTscApi('order', orderData);
+  }
+
+  private static async createPayment(ordernum: string, leadnum: string): Promise<TscResponse | null> {
+    if (!ordernum || !leadnum) return null;
+
+    const paymentData: PaymentData = {
+      ordernum,
+      leadnum,
+      amount: 0, // This should be set based on your order total
+      paymentMethod: "CREDIT_CARD" // Default payment method
+    };
+
+    return this.callTscApi('payment', paymentData);
+  }
+
+  private static cleanLeadDataByResmsg(leadData: LeadData, resmsg: string) {
+    // Clean data based on error message
+    if (resmsg.includes('address')) leadData.address = '';
+    if (resmsg.includes('state')) leadData.state = '';
+    if (resmsg.includes('country')) leadData.country = '';
+    if (resmsg.includes('comment')) leadData.comment = '';
   }
 
   static async createLead(req: Request, res: Response, next: NextFunction) {
@@ -22,161 +183,90 @@ export class InfoController {
       const info = req.body;
       console.log('Received data:', JSON.stringify(info, null, 2));
 
-      // Extraer información de data_collection_results
-      const dataCollection = info.data.analysis?.data_collection_results;
+      // Extract information from data_collection_results
+      const dataCollection = info.data?.analysis?.data_collection_results;
 
       if (!dataCollection) {
-        console.log("No data collection")
+        console.log("No data collection found");
         return ResponseHelper.error(res, 'No data_collection_results found in request', 400);
       }
 
-      // Extraer nombre y teléfono
-      const customerPhone = dataCollection.customer_phone?.value || "";
-      // const customerPhone = info.data.metadata?.phone_call?.external_number || "";
-      const customerEmail = dataCollection.customer_email?.value || "";
-      const customerCountry = dataCollection.customer_country?.value || "";
-      const customerAddress = dataCollection.customer_address?.value || "";
-      const customerZip = dataCollection.customer_zip?.value || "";
-      const customerZip4 = dataCollection.customer_zip4?.value || "";
-      const customerState = dataCollection.customer_state?.value || "";
-
-
-      // Preparar datos para guardar y enviar
-      const leadData = {
-        name: dataCollection.customer_name?.value,
-        last_name: dataCollection.customer_last_name?.value,
+      // Prepare lead data
+      const leadData: LeadData = {
+        name: dataCollection.customer_name?.value || "Unknown",
+        last_name: dataCollection.customer_last_name?.value || "",
         media: "WEB",
-        // phone_number: "",
-        phone_number: removeSymbolRegex("-", customerPhone),
+        phone_number: removeSymbolRegex("-", dataCollection.customer_phone?.value || ""),
         entervia: "9548092011",
-        email: customerEmail,
+        email: dataCollection.customer_email?.value || "",
         city: dataCollection.customer_city?.value || "",
-        address: customerAddress,
-        state: convertToTwoCharCode(customerState),
-        zip: customerZip,
-        zip4: customerZip4,
-        country: convertToTwoCharCode(customerCountry),
+        address: dataCollection.customer_address?.value || "",
+        state: convertToTwoCharCode(dataCollection.customer_state?.value || ""),
+        zip: dataCollection.customer_zip?.value || "",
+        zip4: dataCollection.customer_zip4?.value || "",
+        country: convertToTwoCharCode(dataCollection.customer_country?.value || ""),
         comment: "",
         addInfo: {
           tscReference: "DEFAULT",
-          data: [
-            {
-              tscReferenceCode: "TSC_manchas",
-              tscReferenceValue: dataCollection?.has_manchas?.value
-            },
-            {
-              tscReferenceCode: "TSC_tamaño_manchas",
-              tscReferenceValue: dataCollection?.tamaño_manchas?.value
-            },
-            {
-              tscReferenceCode: "TSC_skin_condition",
-              tscReferenceValue: dataCollection?.skin_condition?.value
-            },
-            {
-              tscReferenceCode: "TSC_has_tried_treatments",
-              tscReferenceValue: dataCollection?.has_tried_treatments?.value
-            },
-            {
-              tscReferenceCode: "TSC_color_manchas",
-              tscReferenceValue: dataCollection?.color_manchas?.value
-            },
-          ]
+          data: Object.entries(dataCollection)
+            .filter(([key]) => !key.startsWith('customer_'))
+            .map(([key, value]: [string, any]) => ({
+              tscReferenceCode: `TSC_${key}`,
+              tscReferenceValue: value?.value || value
+            }))
         }
       };
 
-      const infoLeadDB = {
-        ...leadData,
-        status: dataCollection.call_successful
-      };
-
-      // Guardar en MongoDB antes de enviar a la API externa
+      // Save to PostgreSQL
       try {
-        const db = await connectMongo();
-        await db.collection('leads').insertOne(infoLeadDB);
-        console.log('Lead saved to MongoDB');
-      } catch (mongoErr) {
-        console.error('Error saving lead to MongoDB:', mongoErr);
-        // Puedes decidir si continuar o retornar error aquí
+        const lead = await Lead.create(leadData as any);
+        console.log('Lead saved to PostgreSQL with ID:', lead.id);
+      } catch (dbError) {
+        console.error('Error saving lead to PostgreSQL:', dbError);
+        // Continue even if database save fails
       }
 
-      // Validar el estado de la llamada antes de enviar a la API externa
-      const callStatus = info.data.analysis?.call_successful?.toLowerCase();
-      console.log("Call status: ", callStatus);
-      if (callStatus != "success") {
-        console.log('Call status is error or failed, not sending to external API');
-        return res.status(200).json({ message: 'Lead saved to database only due to call status', status: callStatus });
-      }
-
-      console.log('Sending lead data:', JSON.stringify(leadData, null, 2));
-
-      // Enviar datos a la API externa
-      const response = await fetch(`${config.tscApi.url}/leads`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${config.tscApi.token}`
-        },
-        body: JSON.stringify(leadData)
-      });
-
-
-      if (!response.ok) {
-        let errorJson: any = {};
-        try {
-          errorJson = await response.json();
-        } catch (e) {
-          errorJson = { resmsg: '' };
-        }
-        const resmsg = errorJson?.resmsg || '';
-        InfoController.cleanLeadDataByResmsg(leadData, resmsg);
-        console.error('TSC API Error:', response.status, resmsg);
-
-        // Reintentar una vez con los campos limpiados
-        const retryResponse = await fetch(`${config.tscApi.url}/leads`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${config.tscApi.token}`
-          },
-          body: JSON.stringify(leadData)
+      // Check call status
+      const callStatus = info.data?.analysis?.call_successful?.toLowerCase();
+      console.log("Call status:", callStatus);
+      
+      if (callStatus !== "success") {
+        console.log('Call status is not success, not sending to external API');
+        return res.status(200).json({ 
+          message: 'Lead saved to database only due to call status', 
+          status: callStatus 
         });
-
-        if (!retryResponse.ok) {
-          // Limpiar address, state, country, comment y reintentar una vez más
-          leadData.address = '';
-          leadData.state = '';
-          leadData.country = '';
-          leadData.comment = '';
-
-          const thirdResponse = await fetch(`${config.tscApi.url}/leads`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${config.tscApi.token}`
-            },
-            body: JSON.stringify(leadData)
-          });
-
-          if (!thirdResponse.ok) {
-            const thirdErrorJson = await thirdResponse.json().catch(() => ({}));
-            console.error('TSC API Final Error:', thirdErrorJson);
-            return res.status(500).json({ error: 'Failed to send lead to TSC API after 3 attempts', apiResponse: thirdErrorJson });
-          }
-
-          const thirdTscResponse = await thirdResponse.json();
-          console.log('TSC API Third Attempt Response:', thirdTscResponse);
-          return res.status(200).json({ retried: 2, tscResponse: thirdTscResponse });
-        }
-
-        const retryTscResponse = await retryResponse.json();
-        console.log('TSC API Retry Response:', retryTscResponse);
-        return res.status(200).json({ retried: true, tscResponse: retryTscResponse });
       }
 
-      const tscResponse = await response.json();
-      console.log('TSC API Response:', tscResponse);
+      // Send to TSC API
+      const tscResponse = await this.callTscApi('leads', leadData);
+      
+      if (!tscResponse) {
+        return ResponseHelper.error(res, 'Failed to send lead to TSC API', 500);
+      }
 
-      return res.status(200);
+      let orderResponse = null;
+      let paymentResponse = null;
+
+      // Create order if lead was created successfully
+      if (tscResponse.rescode === '000' && tscResponse.leadnum) {
+        orderResponse = await this.createOrder(leadData, tscResponse.leadnum);
+        
+        // Create payment if order was created successfully
+        if (orderResponse?.rescode === '000' && orderResponse.ordernum) {
+          paymentResponse = await this.createPayment(
+            orderResponse.ordernum,
+            tscResponse.leadnum
+          );
+        }
+      }
+
+      return ResponseHelper.success(res, {
+        message: 'Lead processed successfully',
+        lead: tscResponse,
+        order: orderResponse,
+        payment: paymentResponse
+      });
 
     } catch (error) {
       console.error('Error processing lead:', error);
@@ -186,24 +276,14 @@ export class InfoController {
 
   static async getLeads(req: Request, res: Response, next: NextFunction) {
     try {
-      // Verificar si se proporcionó la contraseña
-      const { pass } = req.query;
-
-      if (!pass) {
-        return ResponseHelper.error(res, 'No se proporcionó la contraseña', 401);
-      }
-
-      // Verificar si la contraseña es correcta
-      if (pass !== config.passGet) {
-        return ResponseHelper.error(res, 'No se proporcionó la contraseña', 401);
-      }
-
-      const db = await connectMongo();
-      const leads = await db.collection('leads').find({}).toArray();
-      return res.status(200).json(leads);
+      const leads = await Lead.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: 100
+      });
+      return ResponseHelper.success(res, leads);
     } catch (error) {
       console.error('Error fetching leads:', error);
-      return ResponseHelper.error(res, 'Error fetching leads from database', 500);
+      next(error);
     }
   }
 }
