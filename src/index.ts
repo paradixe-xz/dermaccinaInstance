@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger);
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('¡Hola! El servidor está funcionando correctamente.');
+});
 app.use('/api', routes);
 
 // Error handler
